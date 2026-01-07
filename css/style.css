@@ -9,6 +9,7 @@ body {
   background: #0a0a0a;
   color: #fff;
   overflow-x: hidden;
+  padding-top: 80px; /* Prevent content from hiding under fixed navbar */
 }
 
 /* Navbar */
@@ -23,7 +24,17 @@ body {
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
+  transition: background 0.4s, backdrop-filter 0.4s;
 }
+.navbar.faded {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+}
+.navbar.faded .nav-logo,
+.navbar.faded .nav-links a {
+  opacity: 0.7;
+}
+
 .nav-logo {
   font-family: 'Orbitron', sans-serif;
   font-size: 32px;
@@ -53,7 +64,7 @@ body {
   height: 100%;
 }
 .hero-slide {
-  background: #000; /* fallback if no image */
+  background: #000;
   position: relative;
   display: flex;
   align-items: center;
@@ -66,7 +77,8 @@ body {
 }
 .hero-match-content {
   text-align: center;
-  z-index: 2;
+  z-index: 1001; /* ✅ Critical: content appears ABOVE navbar */
+  position: relative;
   width: 100%;
   padding: 0 20px;
 }
@@ -293,6 +305,9 @@ body {
   }
 }
 @media (max-width: 768px) {
+  body {
+    padding-top: 70px;
+  }
   .navbar {
     padding: 15px 20px;
   }
