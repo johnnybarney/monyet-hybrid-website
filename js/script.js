@@ -1,7 +1,7 @@
-// js/script.js - Full Fixed Version
+// js/script.js - FINAL FIXED VERSION
 gsap.registerPlugin(ScrollTrigger);
 
-// Hero Slider – FIXED to prevent stacking
+// Hero Slider – Fixed stacking
 const heroSwiper = new Swiper(".hero-match-slider", {
   loop: true,
   autoplay: { delay: 6000, disableOnInteraction: false },
@@ -17,6 +17,11 @@ const heroSwiper = new Swiper(".hero-match-slider", {
   },
   on: {
     slideChangeTransitionStart: (swiper) => {
+      // 🔥 CRITICAL: Hide all content first to prevent stacking
+      document.querySelectorAll('.hero-match-content').forEach(content => {
+        gsap.set(content, { opacity: 0 });
+      });
+
       const currentSlide = swiper.slides[swiper.activeIndex];
       const contentElements = currentSlide.querySelectorAll(".hero-match-content > *");
 
@@ -68,7 +73,7 @@ gsap.utils.toArray(".split-title").forEach(title => {
   });
 });
 
-// Players
+// Player hover
 gsap.utils.toArray(".player").forEach((player, i) => {
   gsap.from(player, {
     y: 200, opacity: 0, rotation: -10, scale: 0.8, duration: 1.5, ease: "elastic.out(1,0.4)",
@@ -76,8 +81,12 @@ gsap.utils.toArray(".player").forEach((player, i) => {
     delay: i * 0.2
   });
 
-  player.addEventListener("mouseenter", () => gsap.to(player, { scale: 1.15, rotation: 8, boxShadow: "0 0 80px rgba(245,183,0,0.8)", duration: 0.6 }));
-  player.addEventListener("mouseleave", () => gsap.to(player, { scale: 1, rotation: 0, boxShadow: "none", duration: 0.6 }));
+  player.addEventListener("mouseenter", () => 
+    gsap.to(player, { scale: 1.15, rotation: 8, boxShadow: "0 0 80px rgba(245,183,0,0.8)", duration: 0.6 })
+  );
+  player.addEventListener("mouseleave", () => 
+    gsap.to(player, { scale: 1, rotation: 0, boxShadow: "none", duration: 0.6 })
+  );
 });
 
 // Horizontal scroll
