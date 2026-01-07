@@ -1,4 +1,4 @@
-// js/script.js - FINAL CLEANED VERSION (NO BOTTOM TITLE)
+// js/script.js - FINAL PRODUCTION VERSION
 gsap.registerPlugin(ScrollTrigger);
 
 // 1. Hero Swiper
@@ -22,11 +22,9 @@ const heroSwiper = new Swiper(".hero-match-slider", {
   },
   on: {
     slideChangeTransitionStart: (swiper) => {
-      // Prevent content stacking
       document.querySelectorAll('.hero-match-content').forEach(el => {
         gsap.set(el, { opacity: 0, y: 50 });
       });
-
       const currentSlide = swiper.slides[swiper.activeIndex];
       const content = currentSlide.querySelector('.hero-match-content');
       if (content) {
@@ -41,7 +39,7 @@ const heroSwiper = new Swiper(".hero-match-slider", {
   }
 });
 
-// 2. Countdown Timer → FIXED TO 19 JAN 2025
+// 2. Countdown Timer
 const countdownEl = document.getElementById('countdown');
 if (countdownEl) {
   const target = new Date('2025-01-19T00:00:00').getTime();
@@ -61,7 +59,7 @@ if (countdownEl) {
   update();
 }
 
-// 3. Split Title Animation (for section titles only)
+// 3. Split Title Animation
 gsap.utils.toArray(".split-title").forEach(title => {
   const text = title.textContent;
   const chars = text.split("").map(c => c === " " ? "<span>&nbsp;</span>" : `<span>${c}</span>`).join("");
@@ -97,41 +95,46 @@ gsap.utils.toArray(".player").forEach((player, i) => {
   });
 });
 
-// 5. Horizontal Scroll for Matches
-const container = document.querySelector(".match-cards-container");
-if (container) {
-  const cards = gsap.utils.toArray(".match-card");
-  const totalWidth = cards.reduce((acc, card) => {
-    return acc + card.offsetWidth + 40;
-  }, 0) - 40;
-
-  gsap.to(container, {
-    x: () => `-${totalWidth - window.innerWidth + 100}`,
-    ease: "none",
-    scrollTrigger: {
-      trigger: ".matches",
-      start: "top top",
-      end: () => `+=${totalWidth}`,
-      pin: true,
-      scrub: 1,
-      invalidateOnRefresh: true
+// 5. Animated Stats Counters
+gsap.utils.toArray('.stat-number').forEach(stat => {
+  const target = parseFloat(stat.getAttribute('data-target'));
+  ScrollTrigger.create({
+    trigger: stat,
+    start: 'top 85%',
+    once: true,
+    onEnter: () => {
+      gsap.fromTo(stat, 
+        { innerText: 0 },
+        {
+          innerText: target,
+          duration: 2.5,
+          ease: 'power2.out',
+          snap: { innerText: 1 },
+          onUpdate: function() {
+            stat.textContent = Math.floor(this.targets()[0].innerText);
+          }
+        }
+      );
     }
   });
+});
 
-  gsap.from(cards, {
+// 6. Match Cards Animation
+gsap.utils.toArray('.match-card').forEach(card => {
+  gsap.from(card, {
+    y: 80,
     opacity: 0,
-    y: 50,
-    stagger: 0.2,
-    duration: 1,
+    duration: 0.9,
+    ease: 'power3.out',
     scrollTrigger: {
-      trigger: ".matches",
-      start: "top 80%",
+      trigger: card,
+      start: 'top 90%',
       once: true
     }
   });
-}
+});
 
-// 6. Navbar Fade on Hero Section
+// 7. Navbar Fade on Hero
 ScrollTrigger.create({
   trigger: ".hero",
   start: "top top",
