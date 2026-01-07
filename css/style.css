@@ -83,3 +83,8 @@ body { font-family: 'Poppins', sans-serif; background: #0a0a0a; color: #fff; ove
   .hero-title { font-size: 50px; }
   .odds-buttons { flex-direction: column; }
 }
+
+/* Prevent slider content overflow */
+.hero-slide {
+  overflow: hidden;
+}
