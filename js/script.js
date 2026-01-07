@@ -1,4 +1,4 @@
-// js/script.js - FINAL PRODUCTION VERSION
+// js/script.js - FINAL CLEANED VERSION (NO BOTTOM TITLE)
 gsap.registerPlugin(ScrollTrigger);
 
 // 1. Hero Swiper
@@ -41,11 +41,7 @@ const heroSwiper = new Swiper(".hero-match-slider", {
   }
 });
 
-// 2. Hero title & tagline (on load)
-gsap.from(".hero-title", { y: 150, opacity: 0, duration: 1.5, ease: "power4.out" });
-gsap.from(".hero-tagline", { y: 80, opacity: 0, duration: 1.2, delay: 0.8, ease: "power3.out" });
-
-// 3. Countdown Timer → FIXED TO 19 JAN 2025
+// 2. Countdown Timer → FIXED TO 19 JAN 2025
 const countdownEl = document.getElementById('countdown');
 if (countdownEl) {
   const target = new Date('2025-01-19T00:00:00').getTime();
@@ -65,7 +61,7 @@ if (countdownEl) {
   update();
 }
 
-// 4. Split Title Animation
+// 3. Split Title Animation (for section titles only)
 gsap.utils.toArray(".split-title").forEach(title => {
   const text = title.textContent;
   const chars = text.split("").map(c => c === " " ? "<span>&nbsp;</span>" : `<span>${c}</span>`).join("");
@@ -85,7 +81,7 @@ gsap.utils.toArray(".split-title").forEach(title => {
   });
 });
 
-// 5. Player Animations
+// 4. Player Animations
 gsap.utils.toArray(".player").forEach((player, i) => {
   gsap.from(player, {
     y: 100,
@@ -101,12 +97,12 @@ gsap.utils.toArray(".player").forEach((player, i) => {
   });
 });
 
-// 6. Horizontal Scroll for Matches
+// 5. Horizontal Scroll for Matches
 const container = document.querySelector(".match-cards-container");
 if (container) {
   const cards = gsap.utils.toArray(".match-card");
   const totalWidth = cards.reduce((acc, card) => {
-    return acc + card.offsetWidth + 40; // 40 = gap
+    return acc + card.offsetWidth + 40;
   }, 0) - 40;
 
   gsap.to(container, {
@@ -135,7 +131,7 @@ if (container) {
   });
 }
 
-// ✅ 7. Navbar Fade on Hero Section
+// 6. Navbar Fade on Hero Section
 ScrollTrigger.create({
   trigger: ".hero",
   start: "top top",
