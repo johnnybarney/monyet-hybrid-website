@@ -59,6 +59,18 @@ body {
   height: 100vh;
   position: relative;
 }
+.header::after {
+  /* Subtle dark gradient at bottom to separate hero title */
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: linear-gradient(to top, #000, transparent);
+  z-index: 2;
+  pointer-events: none;
+}
 .hero-match-slider {
   width: 100%;
   height: 100%;
@@ -77,7 +89,7 @@ body {
 }
 .hero-match-content {
   text-align: center;
-  z-index: 1001; /* ✅ Critical: content appears ABOVE navbar */
+  z-index: 1001; /* Ensures content appears above navbar */
   position: relative;
   width: 100%;
   padding: 0 20px;
@@ -162,27 +174,32 @@ body {
   background: #f5b700;
 }
 
+/* ✅ CRITICAL FIX: Adjust hero title to avoid overlap */
 .hero-bottom {
   position: absolute;
-  bottom: 80px;
+  bottom: 130px; /* Moved up from 80px */
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
   z-index: 3;
+  width: 100%;
+  padding: 0 20px;
 }
 .hero-title {
   font-family: 'Orbitron', sans-serif;
-  font-size: 90px;
+  font-size: 70px; /* Reduced from 90px */
   font-weight: 900;
   background: linear-gradient(135deg, #fff, #f5b700);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   white-space: nowrap;
+  opacity: 0.95;
 }
 .hero-tagline {
-  font-size: 28px;
-  letter-spacing: 10px;
-  opacity: 0.9;
+  font-size: 24px;
+  letter-spacing: 6px;
+  opacity: 0.85;
+  margin-top: 10px;
 }
 
 /* Sections */
@@ -294,7 +311,7 @@ body {
 /* Responsive */
 @media (max-width: 1024px) {
   .hero-title {
-    font-size: 70px;
+    font-size: 60px;
   }
   .teams h3 {
     font-size: 44px;
@@ -318,12 +335,19 @@ body {
     margin-left: 20px;
     font-size: 14px;
   }
-  .players {
-    flex-direction: column;
-    align-items: center;
+  .hero-bottom {
+    bottom: 100px; /* Adjust for mobile */
   }
   .hero-title {
     font-size: 50px;
+  }
+  .hero-tagline {
+    font-size: 20px;
+    letter-spacing: 4px;
+  }
+  .players {
+    flex-direction: column;
+    align-items: center;
   }
   .odds-buttons {
     flex-direction: column;
@@ -338,5 +362,12 @@ body {
   }
   .countdown-timer {
     font-size: 24px;
+  }
+}
+
+/* Extra safety: hide hero title on very short screens */
+@media (max-height: 600px) {
+  .hero-bottom {
+    display: none;
   }
 }
