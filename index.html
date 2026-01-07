@@ -5,18 +5,14 @@
   <title>Monyet Hybrid CF</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-  <!-- AOS CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
-
 </head>
 <body>
 
@@ -31,29 +27,88 @@
     </ul>
   </nav>
 
-  <!-- HERO -->
+  <!-- HERO with Large Animated Match Slider -->
   <header class="header hero" id="home">
-    <div class="hero-content">
-      <h1 class="hero-title">Monyet Hybrid CF</h1>
+    <div class="hero-match-slider swiper">
+      <div class="swiper-wrapper">
+
+        <!-- Slide 1: Last Match -->
+        <div class="swiper-slide hero-slide last-match">
+          <div class="hero-overlay"></div>
+          <div class="hero-match-content">
+            <span class="match-badge">Last Match</span>
+            <div class="teams">
+              <h3>Monyet Hybrid CF</h3>
+              <p class="score">2 – 1</p>
+              <h3>Red Tigers</h3>
+            </div>
+            <span class="match-date">12 Jan 2025</span>
+          </div>
+        </div>
+
+        <!-- Slide 2: Next Match (with Countdown & Odds) -->
+        <div class="swiper-slide hero-slide next-match">
+          <div class="hero-overlay"></div>
+          <div class="hero-match-content">
+            <span class="match-badge gradient-badge">Next Match</span>
+            <div class="teams">
+              <h3>Monyet Hybrid CF</h3>
+              <p class="vs">VS</p>
+              <h3>Blue Warriors</h3>
+            </div>
+            <div class="countdown-timer" id="countdown">Calculating...</div>
+            <div class="odds-buttons">
+              <button class="odd-btn">1.85 Home Win</button>
+              <button class="odd-btn">3.40 Draw</button>
+              <button class="odd-btn">4.20 Away Win</button>
+            </div>
+            <span class="match-date">19 Jan 2025</span>
+          </div>
+        </div>
+
+        <!-- Slide 3: Upcoming -->
+        <div class="swiper-slide hero-slide upcoming-match">
+          <div class="hero-overlay"></div>
+          <div class="hero-match-content">
+            <span class="match-badge">Upcoming</span>
+            <div class="teams">
+              <h3>Monyet Hybrid CF</h3>
+              <p class="vs">VS</p>
+              <h3>Black Lions</h3>
+            </div>
+            <span class="match-date">26 Jan 2025</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Navigation & Pagination -->
+      <div class="swiper-button-next hero-nav"></div>
+      <div class="swiper-button-prev hero-nav"></div>
+      <div class="swiper-pagination hero-pagination"></div>
+    </div>
+
+    <div class="hero-bottom">
+      <h1 class="hero-title split-title">Monyet Hybrid CF</h1>
       <p class="hero-tagline">NO GUTS NO GLORY</p>
     </div>
   </header>
 
   <!-- TEAM SECTION -->
-  <section class="team" id="team" data-aos="fade-up">
-    <h2>Our Players</h2>
+  <section class="team" id="team">
+    <h2 class="section-title split-title">Our Players</h2>
     <div class="players">
-      <div class="player" data-aos="zoom-in" data-aos-delay="0">
+      <div class="player">
         <img src="images/nizam1.jpg" alt="Nizam ST">
         <h3>Nizam ST</h3>
         <p>Striker</p>
       </div>
-      <div class="player" data-aos="zoom-in" data-aos-delay="150">
+      <div class="player">
         <img src="images/nizam2.jpg" alt="Nizam MF">
         <h3>Nizam MF</h3>
         <p>Midfielder</p>
       </div>
-      <div class="player" data-aos="zoom-in" data-aos-delay="300">
+      <div class="player">
         <img src="images/nizam3.jpg" alt="Nizam DF">
         <h3>Nizam DF</h3>
         <p>Defender</p>
@@ -61,15 +116,13 @@
     </div>
   </section>
 
-  <!-- MATCHES SECTION -->
+  <!-- MATCHES SECTION (Horizontal GSAP Scroll) -->
   <section class="matches" id="matches">
-    <h2>Matches</h2>
+    <h2 class="section-title split-title">All Matches</h2>
+    <div class="horizontal-wrapper">
+      <div class="match-cards-container">
 
-    <div class="match-slider swiper">
-      <div class="swiper-wrapper">
-
-        <!-- Last Match -->
-        <div class="swiper-slide match-card last-match">
+        <div class="match-card last-match">
           <span class="match-type">Last Match</span>
           <h3>Monyet Hybrid CF</h3>
           <p>2 – 1</p>
@@ -77,17 +130,15 @@
           <span class="match-date">12 Jan 2025</span>
         </div>
 
-        <!-- Next Match -->
-        <div class="swiper-slide match-card next-match">
-          <span class="match-type">Next Match</span>
+        <div class="match-card next-match">
+          <span class="match-type gradient-badge">Next Match</span>
           <h3>Monyet Hybrid CF</h3>
           <p>VS</p>
           <h3>Blue Warriors</h3>
           <span class="match-date">19 Jan 2025</span>
         </div>
 
-        <!-- Upcoming Match -->
-        <div class="swiper-slide match-card upcoming-match">
+        <div class="match-card upcoming-match">
           <span class="match-type">Upcoming</span>
           <h3>Monyet Hybrid CF</h3>
           <p>VS</p>
@@ -95,37 +146,38 @@
           <span class="match-date">26 Jan 2025</span>
         </div>
 
-      </div>
+        <!-- Duplicate for smoother horizontal scroll feel -->
+        <div class="match-card last-match">
+          <span class="match-type">Last Match</span>
+          <h3>Monyet Hybrid CF</h3>
+          <p>2 – 1</p>
+          <h3>Red Tigers</h3>
+          <span class="match-date">12 Jan 2025</span>
+        </div>
 
-      <!-- Navigation -->
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
+      </div>
     </div>
   </section>
 
   <!-- CONTACT -->
-  <section class="contact" id="contact" data-aos="fade-up">
-    <h2>Contact Us</h2>
+  <section class="contact" id="contact">
+    <h2 class="section-title split-title">Contact Us</h2>
     <p>Email: monyethybrid@gmail.com</p>
   </section>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>© 2025 Monyet Hybrid CF</p>
+    <p>© 2026 Monyet Hybrid CF</p>
   </footer>
-
-  <!-- AOS JS -->
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
   <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
   <!-- Custom JS -->
   <script src="js/script.js"></script>
-
 </body>
 </html>
