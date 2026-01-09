@@ -208,3 +208,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+// Refresh Swiper & ScrollTrigger on resize (mobile rotation etc.)
+window.addEventListener('resize', () => {
+  heroSwiper.update();
+  ScrollTrigger.refresh();
+});
