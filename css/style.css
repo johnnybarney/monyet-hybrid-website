@@ -680,7 +680,12 @@ html, body {
   .teams h3 {
     font-size: 24px;
   }
+
 .score,
+
+
+  .score,
+
   .vs {
     font-size: 38px;
   }
@@ -721,6 +726,7 @@ html, body {
     display: none;
   }
 }
+
 
 /* ===================== MOBILE RESPONSIVENESS ===================== */
 
