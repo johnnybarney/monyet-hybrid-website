@@ -1,145 +1,345 @@
-// js/script.js - FINAL PRODUCTION VERSION
-gsap.registerPlugin(ScrollTrigger);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Monyet Hybrid CF</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-// 1. Hero Swiper
-const heroSwiper = new Swiper(".hero-match-slider", {
-  loop: true,
-  autoplay: {
-    delay: 6000,
-    disableOnInteraction: false
-  },
-  effect: "fade",
-  fadeEffect: {
-    crossFade: true
-  },
-  navigation: {
-    nextEl: ".hero-nav.swiper-button-next",
-    prevEl: ".hero-nav.swiper-button-prev"
-  },
-  pagination: {
-    el: ".hero-pagination",
-    clickable: true
-  },
-  on: {
-    slideChangeTransitionStart: (swiper) => {
-      document.querySelectorAll('.hero-match-content').forEach(el => {
-        gsap.set(el, { opacity: 0, y: 50 });
-      });
-      const currentSlide = swiper.slides[swiper.activeIndex];
-      const content = currentSlide.querySelector('.hero-match-content');
-      if (content) {
-        gsap.to(content, {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: "power4.out"
-        });
-      }
-    }
-  }
-});
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
-// 2. Countdown Timer
-const countdownEl = document.getElementById('countdown');
-if (countdownEl) {
-  const target = new Date('2025-01-19T00:00:00').getTime();
-  const update = () => {
-    const now = new Date().getTime();
-    const diff = target - now;
-    if (diff <= 0) {
-      countdownEl.textContent = "MATCH DAY!";
-      return;
-    }
-    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    countdownEl.textContent = `${d}d ${h}h ${m}m`;
-  };
-  setInterval(update, 60000);
-  update();
-}
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-// 3. Split Title Animation
-gsap.utils.toArray(".split-title").forEach(title => {
-  const text = title.textContent;
-  const chars = text.split("").map(c => c === " " ? "<span>&nbsp;</span>" : `<span>${c}</span>`).join("");
-  title.innerHTML = chars;
-  gsap.from(title.querySelectorAll("span"), {
-    y: 120,
-    rotationX: -90,
-    opacity: 0,
-    stagger: 0.03,
-    duration: 1.2,
-    ease: "back.out(1.4)",
-    scrollTrigger: {
-      trigger: title,
-      start: "top 85%",
-      once: true
-    }
-  });
-});
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
 
-// 4. Player Animations
-gsap.utils.toArray(".player").forEach((player, i) => {
-  gsap.from(player, {
-    y: 100,
-    opacity: 0,
-    scale: 0.9,
-    duration: 1,
-    delay: i * 0.2,
-    scrollTrigger: {
-      trigger: player,
-      start: "top 85%",
-      once: true
-    }
-  });
-});
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo">Monyet Hybrid CF</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#matches">Matches</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-// 5. Animated Stats Counters
-gsap.utils.toArray('.stat-number').forEach(stat => {
-  const target = parseFloat(stat.getAttribute('data-target'));
-  ScrollTrigger.create({
-    trigger: stat,
-    start: 'top 85%',
-    once: true,
-    onEnter: () => {
-      gsap.fromTo(stat, 
-        { innerText: 0 },
-        {
-          innerText: target,
-          duration: 2.5,
-          ease: 'power2.out',
-          snap: { innerText: 1 },
-          onUpdate: function() {
-            stat.textContent = Math.floor(this.targets()[0].innerText);
-          }
-        }
-      );
-    }
-  });
-});
+  <!-- HERO -->
+  <header class="header hero" id="home">
+    <div class="hero-match-slider swiper">
+      <div class="swiper-wrapper">
+        <!-- Slide 1: Last Match -->
+        <div class="swiper-slide hero-slide last-match">
+          <div class="hero-overlay"></div>
+          <div class="hero-match-content">
+            <span class="match-badge">Last Match</span>
+            <div class="teams">
+              <h3>Monyet Hybrid CF</h3>
+              <p class="score">1 – 1</p>
+              <h3>MQ Bakti</h3>
+            </div>
+            <span class="match-date">2 Jan 2026</span>
+          </div>
+        </div>
 
-// 6. Match Cards Animation
-gsap.utils.toArray('.match-card').forEach(card => {
-  gsap.from(card, {
-    y: 80,
-    opacity: 0,
-    duration: 0.9,
-    ease: 'power3.out',
-    scrollTrigger: {
-      trigger: card,
-      start: 'top 90%',
-      once: true
-    }
-  });
-});
+        <!-- Slide 2: Next Match -->
+        <div class="swiper-slide hero-slide next-match">
+          <div class="hero-overlay"></div>
+          <div class="hero-match-content">
+            <span class="match-badge gradient-badge">Next Match</span>
+            <div class="teams">
+              <h3>Monyet Hybrid CF</h3>
+              <p class="vs">VS</p>
+              <h3>Liverpool</h3>
+            </div>
+            <div class="countdown-timer" id="countdown">Calculating...</div>
+            <span class="match-date">9 Jan 2026</span>
+          </div>
+        </div>
 
-// 7. Navbar Fade on Hero
-ScrollTrigger.create({
-  trigger: ".hero",
-  start: "top top",
-  end: "bottom top",
-  onToggle: self => {
-    document.querySelector('.navbar').classList.toggle('faded', self.isActive);
-  }
-});
+        <!-- Slide 3: Upcoming -->
+        <div class="swiper-slide hero-slide upcoming-match">
+          <div class="hero-overlay"></div>
+          <div class="hero-match-content">
+            <span class="match-badge">Upcoming</span>
+            <div class="teams">
+              <h3>Monyet Hybrid CF</h3>
+              <p class="vs">VS</p>
+              <h3>Arsenal</h3>
+            </div>
+            <span class="match-date">26 Jan 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-button-next hero-nav"></div>
+      <div class="swiper-button-prev hero-nav"></div>
+      <div class="swiper-pagination hero-pagination"></div>
+    </div>
+  </header>
+
+  <!-- STATS SECTION -->
+  <section class="stats-section">
+    <div class="stat-item">
+      <h3 class="stat-number" data-target="35">0</h3>
+      <p class="stat-label">Trophies</p>
+      <span class="stat-sublabel">Copa Del Rey</span>
+    </div>
+    <div class="stat-item">
+      <h3 class="stat-number" data-target="15">0</h3>
+      <p class="stat-label">Trophies</p>
+      <span class="stat-sublabel">UEFA Champions League</span>
+    </div>
+    <div class="stat-item">
+      <h3 class="stat-number" data-target="5">0</h3>
+      <p class="stat-label">Trophies</p>
+      <span class="stat-sublabel">FIFA Club World Cup</span>
+    </div>
+    <div class="stat-item">
+      <h3 class="stat-number" data-target="8">0</h3>
+      <p class="stat-label">Trophies</p>
+      <span class="stat-sublabel">Mondiale per Club</span>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="team" id="team">
+    <h2 class="section-title split-title">Our Players</h2>
+    <div class="players">
+      <div class="player">
+        <img src="images/naem2.jpg" alt="Naem" />
+        <h3>Naem</h3>
+        <p>Midfielder</p>
+      </div>
+      <div class="player">
+        <img src="images/apis.jpg" alt="Apis" />
+        <h3>Apis</h3>
+        <p>Midfielder</p>
+      </div>
+      <div class="player">
+        <img src="images/nizam3.jpg" alt="Nizam" />
+        <h3>Nizam</h3>
+        <p>Midfielder</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM STATISTICS SECTION -->
+  <section class="team-stats">
+    <h2 class="section-title split-title">Team Stats 2026</h2>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-icon">👕</div>
+        <h3 class="stat-value" data-target="1">0</h3>
+        <p class="stat-label">Apps</p>
+      </div>
+      <div class="stat-box">
+        <div class="stat-icon">⚽</div>
+        <h3 class="stat-value" data-target="1">0</h3>
+        <p class="stat-label">Goals</p>
+      </div>
+      <div class="stat-box">
+        <div class="stat-icon">✅</div>
+        <h3 class="stat-value" data-target="0">0</h3>
+        <p class="stat-label">Wins</p>
+      </div>
+      <div class="stat-box">
+        <div class="stat-icon">❌</div>
+        <h3 class="stat-value" data-target="0">0</h3>
+        <p class="stat-label">Losses</p>
+      </div>
+      <div class="stat-box">
+        <div class="stat-icon">🟰</div>
+        <h3 class="stat-value" data-target="1">0</h3>
+        <p class="stat-label">Draws</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAYER STATS TABLE -->
+<section class="player-stats-table">
+  <h2 class="section-title split-title">Player Stats 2026</h2>
+
+  <!-- SORT CONTROLS -->
+  <div class="stats-controls">
+    <button class="sort-btn active" data-sort="total">Top Contributors</button>
+    <button class="sort-btn" data-sort="goals">Goals</button>
+    <button class="sort-btn" data-sort="assists">Assists</button>
+  </div>
+
+  <!-- PLAYER STATS TABLE -->
+  <div class="stats-container">
+    <table class="stats-table" id="playerStatsTable">
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Pos</th>
+          <th>Goals</th>
+          <th>Assists</th>
+          <th>Yel</th>
+          <th>Red</th>
+          <th>MOTM</th>
+        </tr>
+      </thead>
+      <tbody id="playerStatsBody">
+        <!-- Generated by JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- TOP PLAYER HIGHLIGHT (BOTTOM) -->
+  <div class="top-player-highlight">
+    <div class="highlight-card">
+      <img src="images/naem2.jpg" alt="Nizam ST" class="highlight-photo">
+      <h3>Top Contributor</h3>
+      <p id="topContributor">—</p>
+    </div>
+    <div class="highlight-card">
+      <img src="images/naem2.jpg" alt="Nizam ST" class="highlight-photo">
+      <h3>Top Scorer</h3>
+      <p id="topScorer">—</p>
+    </div>
+    <div class="highlight-card">
+      <img src="images/apis.jpg" alt="Nizam MF" class="highlight-photo">
+      <h3>Top Assister</h3>
+      <p id="topAssister">—</p>
+    </div>
+  </div>
+</section>
+
+  <!-- MATCHES SECTION - NITRO STYLE -->
+  <section class="matches" id="matches">
+    <h2 class="section-title split-title">Match Schedule</h2>
+
+    <!-- Horizontal Scrollable Ticker -->
+    <div class="match-ticker">
+      <div class="ticker-wrapper">
+        <div class="ticker-item">
+          <span class="ticker-status">FULL TIME</span>
+          <div class="ticker-teams">
+            <span>Monyet Hybrid CF</span>
+            <span class="ticker-score">1 – 1</span>
+            <span>MQ Bakti</span>
+          </div>
+          <div class="ticker-meta">2 Jan 2026 • JSA SETIA ALAM</div>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-status gradient-badge">NEXT</span>
+          <div class="ticker-teams">
+            <span>Monyet Hybrid CF</span>
+            <span class="ticker-vs">VS</span>
+            <span>Liverpool</span>
+          </div>
+          <div class="ticker-meta">9 Jan 2026 • ECO ARDENCE SETIA ALAM</div>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-status">UPCOMING</span>
+          <div class="ticker-teams">
+            <span>Monyet Hybrid CF</span>
+            <span class="ticker-vs">VS</span>
+            <span>Arsenal</span>
+          </div>
+          <div class="ticker-meta">26 Jan 2026 • RRI SG BULOH</div>
+        </div>
+        <!-- Repeat for seamless scroll -->
+        <div class="ticker-item">
+          <span class="ticker-status">FULL TIME</span>
+          <div class="ticker-teams">
+            <span>Monyet Hybrid CF</span>
+            <span class="ticker-score">1 – 1</span>
+            <span>MQ Bakti</span>
+          </div>
+          <div class="ticker-meta">2 Jan 2026 • JSA SETIA ALAM</div>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-status gradient-badge">NEXT</span>
+          <div class="ticker-teams">
+            <span>Monyet Hybrid CF</span>
+            <span class="ticker-vs">VS</span>
+            <span>Liverpool</span>
+          </div>
+          <div class="ticker-meta">9 Jan 2026 • ECO ARDENCE SETIA ALAM</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Three Large Match Cards -->
+    <div class="match-cards-grid">
+      <div class="match-card">
+        <span class="match-label">LAST MATCH</span>
+        <div class="card-teams">
+          <h3>Monyet Hybrid CF</h3>
+          <p class="match-score">1 – 1</p>
+          <h3>MQ Bakti</h3>
+        </div>
+        <div class="card-meta">
+          <p class="match-date">2 Jan 2026</p>
+          <p class="match-venue">JSA SETIA ALAM</p>
+        </div>
+      </div>
+
+      <div class="match-card next">
+        <span class="match-label gradient-badge">NEXT MATCH</span>
+        <div class="card-teams">
+          <h3>Monyet Hybrid CF</h3>
+          <p class="match-vs">VS</p>
+          <h3>Liverpool</h3>
+        </div>
+        <div class="card-meta">
+          <p class="match-date">9 Jan 2026</p>
+          <p class="match-venue">ECO ARDENCE SETIA ALAM</p>
+        </div>
+      </div>
+
+      <div class="match-card">
+        <span class="match-label">UPCOMING MATCH</span>
+        <div class="card-teams">
+          <h3>Monyet Hybrid CF</h3>
+          <p class="match-vs">VS</p>
+          <h3>Arsenal</h3>
+        </div>
+        <div class="card-meta">
+          <p class="match-date">26 Jan 2026</p>
+          <p class="match-venue">RRI SG BULOH</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <h2 class="section-title split-title">Contact Us</h2>
+    <div class="social-icons">
+      <a href="mailto:monyethybrid@gmail.com" class="social-icon" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10z"/>
+        </svg>
+      </a>
+      <a href="https://instagram.com/monyethybrid" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.205.012-3.584.07-4.849.149-3.23 1.664-4.781 4.919-4.92 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.28-.073 1.688-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.28.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.439s.645 1.439 1.441 1.439c.795 0 1.439-.645 1.439-1.439s-.644-1.439-1.439-1.439z"/>
+        </svg>
+      </a>
+      <a href="https://wa.me/60123456789" target="_blank" rel="noopener" class="social-icon" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.506-.173-.006-.371-.01-.57-.01-.199 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 Monyet Hybrid CF</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
