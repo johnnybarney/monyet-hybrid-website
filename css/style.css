@@ -46,7 +46,9 @@ html, body {
   font-weight: 900;
   background: linear-gradient(135deg, #f5b700, #ff8c00);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent; /* Fallback for non-WebKit */
 }
 .nav-links a {
   color: #fff;
@@ -62,7 +64,6 @@ html, body {
 /* Hero */
 .header {
   min-height: 100svh;
-}
   position: relative;
 }
 .hero-match-slider {
@@ -111,10 +112,12 @@ html, body {
 }
 .score,
 .vs {
-  font-size: 90px;
+  font-size: clamp(2rem, 8vw, 5.625rem); /* 32px → 90px */
   font-weight: 900;
+  color: #f5b700;
   background: linear-gradient(135deg, #f5b700, #ff8c00);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .countdown-timer {
@@ -162,10 +165,12 @@ html, body {
 }
 .stat-number {
   font-family: 'Orbitron', sans-serif;
-  font-size: 64px;
+  font-size: clamp(2.5rem, 8vw, 4rem); /* 40px → 64px, responsive */
   font-weight: 900;
+  color: #f5b700; /* Fallback color for non-WebKit browsers */
   background: linear-gradient(135deg, #f5b700, #ff8c00);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   margin: 0 0 10px;
 }
@@ -190,11 +195,14 @@ html, body {
 }
 .section-title {
   font-family: 'Orbitron', sans-serif;
-  font-size: 56px;
-  margin-bottom: 100px;
+  font-size: clamp(2rem, 6vw, 3.5rem); /* 32px → 56px, fluid scaling */
+  margin-bottom: clamp(2.5rem, 8vw, 6.25rem); /* 40px → 100px */
   background: linear-gradient(135deg, #f5b700, #ff8c00);
   -webkit-background-clip: text;
+  background-clip: text; /* Standard property */
   -webkit-text-fill-color: transparent;
+  color: #f5b700; /* Fallback for Firefox, older browsers */
+  line-height: 1.2;
 }
 
 /* Players */
@@ -276,9 +284,13 @@ html, body {
 .ticker-score,
 .ticker-vs {
   font-weight: 900;
+  font-size: clamp(1rem, 3.5vw, 1.25rem); /* Responsive size */
+  color: #f5b700; /* Fallback for non-WebKit browsers */
   background: linear-gradient(135deg, #f5b700, #ff8c00);
   -webkit-background-clip: text;
+  background-clip: text; /* Standard property */
   -webkit-text-fill-color: transparent;
+  white-space: nowrap; /* Keeps "VS" on one line */
 }
 .ticker-meta {
   font-size: 14px;
@@ -336,12 +348,15 @@ html, body {
 }
 .match-score,
 .match-vs {
-  font-size: 60px;
+  font-size: clamp(2rem, 7vw, 3.75rem); /* 32px → 60px, responsive */
   font-weight: 900;
-  margin: 20px 0;
+  margin: clamp(1rem, 3vw, 1.25rem) 0; /* 16px → 20px, scales gently */
+  color: #f5b700; /* Fallback for Firefox & non-WebKit browsers */
   background: linear-gradient(135deg, #f5b700, #ff8c00);
   -webkit-background-clip: text;
+  background-clip: text; /* Standard property */
   -webkit-text-fill-color: transparent;
+  white-space: nowrap; /* Prevents "VS" from wrapping */
 }
 .card-meta .match-date {
   font-size: 20px;
@@ -435,12 +450,14 @@ html, body {
 }
 .team-stats .stat-value {
   font-family: 'Orbitron', sans-serif;
-  font-size: 38px;
+  font-size: clamp(1.5rem, 5vw, 2.375rem); /* 24px → 38px, fluid scaling */
   font-weight: 900;
+  color: #f5b700; /* Fallback for Firefox, older browsers, screen readers */
   background: linear-gradient(135deg, #f5b700, #ff8c00);
   -webkit-background-clip: text;
+  background-clip: text; /* Standard property (future-proof) */
   -webkit-text-fill-color: transparent;
-  margin: 0 0 8px;
+  margin: 0 0 clamp(0.5rem, 2vw, 0.5rem); /* Keep consistent spacing */
 }
 .team-stats .stat-label {
   font-size: 14px;
@@ -663,8 +680,7 @@ html, body {
   .teams h3 {
     font-size: 24px;
   }
-
-  .score,
+.score,
   .vs {
     font-size: 38px;
   }

@@ -1,5 +1,25 @@
-// js/script.js - FINAL PRODUCTION VERSION
+// js/script.js - FINAL PRODUCTION VERSION (MOBILE-SAFE)
 gsap.registerPlugin(ScrollTrigger);
+
+// Debounce helper for resize events
+function debounce(func, wait) {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+}
+
+// Helper: Get player image by name
+function getPlayerImage(name) {
+  const nameMap = {
+    "Naem": "images/naem2.jpg",
+    "Apis": "images/apis.jpg",
+    "Niezam": "images/nizam3.jpg", // Ensure filename matches actual file!
+    "Nizam": "images/nizam3.jpg"   // Alias in case of typo variation
+  };
+  return nameMap[name] || "images/default.jpg";
+}
 
 // 1. Hero Swiper
 const heroSwiper = new Swiper(".hero-match-slider", {
@@ -167,10 +187,10 @@ function updateTopPlayers() {
   document.getElementById('topScorer').textContent = `${topScorer.name} — ${topScorer.goals} Goals`;
   document.getElementById('topAssister').textContent = `${topAssister.name} — ${topAssister.assists} Assists`;
 
-  // Update photo sources (optional: you can make it dynamic)
-  document.querySelector('.highlight-card:first-child img').src = 'images/naem2.jpg'; // Top Contributor
-  document.querySelector('.highlight-card:nth-child(2) img').src = 'images/naem2.jpg'; // Top Scorer
-  document.querySelector('.highlight-card:nth-child(3) img').src = 'images/apis.jpg'; // Top Assister
+  // Update photos dynamically
+  document.querySelector('.highlight-card:first-child img').src = getPlayerImage(topContributor.name);
+  document.querySelector('.highlight-card:nth-child(2) img').src = getPlayerImage(topScorer.name);
+  document.querySelector('.highlight-card:nth-child(3) img').src = getPlayerImage(topAssister.name);
 }
 
 // === RENDER TABLE ===
@@ -209,8 +229,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Refresh Swiper & ScrollTrigger on resize (mobile rotation etc.)
-window.addEventListener('resize', () => {
-  heroSwiper.update();
-  ScrollTrigger.refresh();
-});
+// ✅ SAFE RESIZE HANDLER (mobile rotation, etc.)
+window.addEventListener(
+  'resize',
+  debounce(() => {
+    if (typeof heroSwiper !== 'undefined' && heroSwiper?.update) {
+      heroSwiper.update();
+    }
+    if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) {
+      ScrollTrigger.refresh();
+    }
+  }, 250)
+);
