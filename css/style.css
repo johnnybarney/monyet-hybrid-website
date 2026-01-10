@@ -671,3 +671,29 @@ h1, h2, h3, h4, h5, h6, p, span, div, li, td, th {
   transform: none !important;
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
+
+/* === RESPONSIVE HERO FIX (DESKTOP + MOBILE) === */
+.header {
+  min-height: 100vh;
+  min-height: 100svh;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-match-slider,
+.hero-match-slider .swiper-wrapper,
+.hero-match-slider .swiper-slide {
+  height: 100%;
+}
+
+.hero-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.hero-match-content {
+  position: relative;
+  z-index: 10;
+}
