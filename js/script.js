@@ -1,7 +1,6 @@
-// js/script.js - FINAL PRODUCTION VERSION (MOBILE-SAFE)
+// js/script.js - FINAL CLEANED + HERO FIX
 gsap.registerPlugin(ScrollTrigger);
 
-// Debounce helper for resize events
 function debounce(func, wait) {
   let timeout;
   return (...args) => {
@@ -10,18 +9,17 @@ function debounce(func, wait) {
   };
 }
 
-// Helper: Get player image by name
 function getPlayerImage(name) {
   const nameMap = {
     "Naem": "images/naem2.jpg",
     "Apis": "images/apis.jpg",
-    "Niezam": "images/nizam3.jpg", // Ensure filename matches actual file!
-    "Nizam": "images/nizam3.jpg"   // Alias in case of typo variation
+    "Niezam": "images/nizam3.jpg",
+    "Nizam": "images/nizam3.jpg"
   };
   return nameMap[name] || "images/default.jpg";
 }
 
-// 1. Hero Swiper
+// 1. Hero Swiper — FIXED WITH onInit
 const heroSwiper = new Swiper(".hero-match-slider", {
   loop: true,
   autoplay: {
@@ -29,9 +27,7 @@ const heroSwiper = new Swiper(".hero-match-slider", {
     disableOnInteraction: false
   },
   effect: "fade",
-  fadeEffect: {
-    crossFade: true
-  },
+  fadeEffect: { crossFade: true },
   navigation: {
     nextEl: ".hero-nav.swiper-button-next",
     prevEl: ".hero-nav.swiper-button-prev"
@@ -41,6 +37,13 @@ const heroSwiper = new Swiper(".hero-match-slider", {
     clickable: true
   },
   on: {
+    init: (swiper) => {
+      // ✅ Ensure first slide is visible on desktop
+      const firstContent = swiper.slides[0].querySelector('.hero-match-content');
+      if (firstContent) {
+        gsap.set(firstContent, { opacity: 1, y: 0 });
+      }
+    },
     slideChangeTransitionStart: (swiper) => {
       document.querySelectorAll('.hero-match-content').forEach(el => {
         gsap.set(el, { opacity: 0, y: 50 });
@@ -59,7 +62,7 @@ const heroSwiper = new Swiper(".hero-match-slider", {
   }
 });
 
-// 2. Countdown Timer (Next match: 9 Jan 2026)
+// 2. Countdown Timer
 const countdownEl = document.getElementById('countdown');
 if (countdownEl) {
   const target = new Date('2026-01-09T00:00:00').getTime();
@@ -79,7 +82,7 @@ if (countdownEl) {
   update();
 }
 
-// 3. Split Title Animation
+// 3–7. Animations (unchanged)
 gsap.utils.toArray(".split-title").forEach(title => {
   const text = title.textContent;
   const chars = text.split("").map(c => c === " " ? "<span>&nbsp;</span>" : `<span>${c}</span>`).join("");
@@ -99,7 +102,6 @@ gsap.utils.toArray(".split-title").forEach(title => {
   });
 });
 
-// 4. Player Animations
 gsap.utils.toArray(".player").forEach((player, i) => {
   gsap.from(player, {
     y: 100,
@@ -115,7 +117,6 @@ gsap.utils.toArray(".player").forEach((player, i) => {
   });
 });
 
-// 5. Animated Stats Counters (Trophies + Team Stats)
 gsap.utils.toArray('.stat-number, .stat-value[data-target]').forEach(stat => {
   const target = parseFloat(stat.getAttribute('data-target'));
   if (isNaN(target)) return;
@@ -140,7 +141,6 @@ gsap.utils.toArray('.stat-number, .stat-value[data-target]').forEach(stat => {
   });
 });
 
-// 6. Match Cards Animation
 gsap.utils.toArray('.match-card').forEach(card => {
   gsap.from(card, {
     y: 80,
@@ -155,7 +155,6 @@ gsap.utils.toArray('.match-card').forEach(card => {
   });
 });
 
-// 7. Navbar Fade on Hero
 ScrollTrigger.create({
   trigger: ".hero",
   start: "top top",
@@ -165,85 +164,59 @@ ScrollTrigger.create({
   }
 });
 
-// === PLAYER STATS DATA ===
+// Player stats logic
 const players = [
   { name: "Niezam", pos: "Midfielder", goals: 0, assists: 0, yel: 0, red: 0, motm: 0 },
   { name: "Naem", pos: "Midfielder", goals: 1, assists: 0, yel: 0, red: 0, motm: 0 },
   { name: "Apis", pos: "Midfielder", goals: 0, assists: 1, yel: 0, red: 0, motm: 0 }
 ];
 
-// === CALCULATE TOTAL CONTRIBUTION (Goals + Assists) ===
-players.forEach(player => {
-  player.total = player.goals + player.assists;
-});
+players.forEach(player => player.total = player.goals + player.assists);
 
-// === UPDATE TOP PLAYER HIGHLIGHTS ===
 function updateTopPlayers() {
-  const topContributor = players.reduce((max, player) => player.total > max.total ? player : max, players[0]);
-  const topScorer = players.reduce((max, player) => player.goals > max.goals ? player : max, players[0]);
-  const topAssister = players.reduce((max, player) => player.assists > max.assists ? player : max, players[0]);
+  const topContributor = players.reduce((max, p) => p.total > max.total ? p : max, players[0]);
+  const topScorer = players.reduce((max, p) => p.goals > max.goals ? p : max, players[0]);
+  const topAssister = players.reduce((max, p) => p.assists > max.assists ? p : max, players[0]);
 
   document.getElementById('topContributor').textContent = `${topContributor.name} — ${topContributor.total} Total`;
   document.getElementById('topScorer').textContent = `${topScorer.name} — ${topScorer.goals} Goals`;
   document.getElementById('topAssister').textContent = `${topAssister.name} — ${topAssister.assists} Assists`;
 
-  // Update photos dynamically
-  document.querySelector('.highlight-card:first-child img').src = getPlayerImage(topContributor.name);
+  document.querySelector('.highlight-card:nth-child(1) img').src = getPlayerImage(topContributor.name);
   document.querySelector('.highlight-card:nth-child(2) img').src = getPlayerImage(topScorer.name);
   document.querySelector('.highlight-card:nth-child(3) img').src = getPlayerImage(topAssister.name);
 }
 
-// === RENDER TABLE ===
 function renderPlayerTable(sortBy = 'total') {
   const tbody = document.getElementById('playerStatsBody');
   if (!tbody) return;
-
-  const sortedPlayers = [...players].sort((a, b) => b[sortBy] - a[sortBy]);
-
-  tbody.innerHTML = sortedPlayers.map(player => `
+  const sorted = [...players].sort((a, b) => b[sortBy] - a[sortBy]);
+  tbody.innerHTML = sorted.map(p => `
     <tr>
-      <td>${player.name}</td>
-      <td>${player.pos}</td>
-      <td>${player.goals}</td>
-      <td>${player.assists}</td>
-      <td>${player.yel}</td>
-      <td>${player.red}</td>
-      <td>${player.motm}</td>
+      <td>${p.name}</td>
+      <td>${p.pos}</td>
+      <td>${p.goals}</td>
+      <td>${p.assists}</td>
+      <td>${p.yel}</td>
+      <td>${p.red}</td>
+      <td>${p.motm}</td>
     </tr>
   `).join('');
-
   document.querySelectorAll('.sort-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.sort === sortBy);
   });
 }
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
   updateTopPlayers();
   renderPlayerTable('total');
-
   document.querySelectorAll('.sort-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      renderPlayerTable(btn.dataset.sort);
-    });
+    btn.addEventListener('click', () => renderPlayerTable(btn.dataset.sort));
   });
 });
 
-// ✅ SAFE RESIZE HANDLER (mobile rotation, etc.)
-window.addEventListener(
-  'resize',
-  debounce(() => {
-    if (typeof heroSwiper !== 'undefined' && heroSwiper?.update) {
-      heroSwiper.update();
-    }
-    if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.refresh) {
-      ScrollTrigger.refresh();
-    }
-  }, 250)
-);
-
-// Refresh Swiper & ScrollTrigger on resize (mobile rotation etc.)
-window.addEventListener('resize', () => {
-  heroSwiper.update();
-  ScrollTrigger.refresh();
-});
+// Safe resize handler
+window.addEventListener('resize', debounce(() => {
+  if (heroSwiper?.update) heroSwiper.update();
+  if (ScrollTrigger?.refresh) ScrollTrigger.refresh();
+}, 250));
