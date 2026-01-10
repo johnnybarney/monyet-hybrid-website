@@ -4,6 +4,38 @@
   <meta charset="UTF-8" />
   <title>Monyet Hybrid CF</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- CRITICAL FIX: Make hero content visible immediately -->
+  <style>
+    .match-badge,
+    .hero-match-content,
+    .hero-match-content * {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    
+    .match-badge {
+      display: inline-block !important;
+    }
+  </style>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2...
+
+<style>
+  /* CRITICAL: Force hero content visible immediately */
+  .match-badge,
+  .hero-match-content,
+  .hero-match-content * {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
+  
+  .match-badge {
+    display: inline-block !important;
+  }
+</style>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
