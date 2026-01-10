@@ -1,4 +1,4 @@
-// js/script.js - FINAL WORKING VERSION
+// js/script.js - HERO VISIBILITY FIX
 gsap.registerPlugin(ScrollTrigger);
 
 function debounce(func, wait) {
@@ -19,23 +19,64 @@ function getPlayerImage(name) {
   return nameMap[name] || "images/default.jpg";
 }
 
-// 1. Hero Swiper — NO ANIMATION ON INIT (safe)
-const heroSwiper = new Swiper(".hero-match-slider", {
-  loop: true,
-  autoplay: {
-    delay: 6000,
-    disableOnInteraction: false
-  },
-  effect: "fade",
-  fadeEffect: { crossFade: true },
-  navigation: {
-    nextEl: ".hero-nav.swiper-button-next",
-    prevEl: ".hero-nav.swiper-button-prev"
-  },
-  pagination: {
-    el: ".hero-pagination",
-    clickable: true
-  }
+// === FIX 1: ENSURE HERO CONTENT IS VISIBLE IMMEDIATELY ===
+// This runs BEFORE anything else
+document.addEventListener('DOMContentLoaded', () => {
+  console.log("Script loaded successfully");
+  
+  // CRITICAL: Make hero content visible immediately
+  const heroContent = document.querySelectorAll('.hero-match-content');
+  heroContent.forEach(content => {
+    content.style.opacity = '1';
+    content.style.visibility = 'visible';
+    content.style.transform = 'none';
+  });
+
+  updateTopPlayers();
+  renderPlayerTable('total');
+
+  document.querySelectorAll('.sort-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      renderPlayerTable(btn.dataset.sort);
+    });
+  });
+});
+
+// === FIX 2: INITIALIZE SWIPER AFTER DOM IS READY ===
+// Wait for everything to load first
+window.addEventListener('load', () => {
+  // Initialize Hero Swiper
+  const heroSwiper = new Swiper(".hero-match-slider", {
+    loop: true,
+    autoplay: {
+      delay: 6000,
+      disableOnInteraction: false
+    },
+    effect: "fade",
+    fadeEffect: { crossFade: true },
+    navigation: {
+      nextEl: ".hero-nav.swiper-button-next",
+      prevEl: ".hero-nav.swiper-button-prev"
+    },
+    pagination: {
+      el: ".hero-pagination",
+      clickable: true
+    },
+    // IMPORTANT: Set initial slide opacity
+    on: {
+      init: function() {
+        // Ensure content is visible on first slide
+        const slides = document.querySelectorAll('.hero-slide');
+        slides.forEach(slide => {
+          const content = slide.querySelector('.hero-match-content');
+          if (content) {
+            content.style.opacity = '1';
+            content.style.visibility = 'visible';
+          }
+        });
+      }
+    }
+  });
 });
 
 // 2. Countdown Timer (with error check)
@@ -196,20 +237,6 @@ function renderPlayerTable(sortBy = 'total') {
     btn.classList.toggle('active', btn.dataset.sort === sortBy);
   });
 }
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
-  console.log("Script loaded successfully");
-
-  updateTopPlayers();
-  renderPlayerTable('total');
-
-  document.querySelectorAll('.sort-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      renderPlayerTable(btn.dataset.sort);
-    });
-  });
-});
 
 // Safe resize handler
 window.addEventListener(
