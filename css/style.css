@@ -144,13 +144,19 @@ h1, h2, h3, h4, h5, h6, p, span, div, li, td, th {
   position: absolute;
   inset: 0;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.9));
+  z-index: 1;
+  pointer-events: none;
 }
 .hero-match-content {
   text-align: center;
-  z-index: 1001;
+  z-index: 10;
   position: relative;
   width: 100%;
-  padding: 0 clamp(0.75rem, 5vw, 1.25rem);
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 1rem;
+  opacity: 1;
+  visibility: visible;
 }
 
 .match-badge {
@@ -173,6 +179,8 @@ h1, h2, h3, h4, h5, h6, p, span, div, li, td, th {
   font-size: clamp(1.5rem, 6vw, 3.5rem);
   margin: clamp(0.5rem, 2vw, 1rem) 0;
   white-space: normal;
+  line-height: 1.2;
+  word-break: break-word;
 }
 .score,
 .vs {
@@ -664,19 +672,13 @@ h1, h2, h3, h4, h5, h6, p, span, div, li, td, th {
   }
 }
 
-/* === HERO TEXT VISIBLE BY DEFAULT === */
-.hero-match-content {
-  opacity: 1 !important;
-  transform: none !important;
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
 /* === RESPONSIVE HERO FIX (DESKTOP + MOBILE) === */
 .header {
-  min-height: 100vh;
   min-height: 100svh;
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 .hero-match-slider,
