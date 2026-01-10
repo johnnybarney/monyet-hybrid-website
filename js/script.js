@@ -13,12 +13,11 @@ function getPlayerImage(name) {
   const nameMap = {
     "Naem": "images/naem2.jpg",
     "Apis": "images/apis.jpg",
-    "Niezam": "images/nizam3.jpg",
-    "Nizam": "images/nizam3.jpg"
+     "Nizam": "images/nizam3.jpg"
   };
   return nameMap[name] || "images/default.jpg";
 }
-
+    
 // === FIX 1: ENSURE HERO CONTENT IS VISIBLE IMMEDIATELY ===
 // This runs BEFORE anything else
 document.addEventListener('DOMContentLoaded', () => {
@@ -189,9 +188,12 @@ ScrollTrigger.create({
 
 // === PLAYER STATS DATA ===
 const players = [
-  { name: "Nizam", pos: "Midfielder", goals: 0, assists: 0, yel: 0, red: 0, motm: 0 },
-  { name: "Naem", pos: "Midfielder", goals: 1, assists: 0, yel: 0, red: 0, motm: 0 },
-  { name: "Apis", pos: "Midfielder", goals: 0, assists: 1, yel: 0, red: 0, motm: 0 }
+  { name: "Nizam", pos: "Midfielder", goals: 0, assists: 2, yel: 0, red: 0, motm: 0 },
+  { name: "Naem", pos: "Midfielder", goals: 2, assists: 1, yel: 0, red: 0, motm: 0 },
+  { name: "Eric", pos: "Midfielder", goals: 1, assists: 0, yel: 0, red: 0, motm: 0 },
+  { name: "Amir", pos: "Midfielder", goals: 1, assists: 2, yel: 0, red: 0, motm: 0 },
+  { name: "Farhan", pos: "Midfielder", goals: 1, assists: 0, yel: 0, red: 0, motm: 0 },
+  { name: "Apis", pos: "Midfielder", goals: 1, assists: 0, yel: 0, red: 0, motm: 0 }
 ];
 
 players.forEach(player => {
