@@ -664,3 +664,10 @@ h1, h2, h3, h4, h5, h6, p, span, div, li, td, th {
     white-space: normal !important;
   }
 }
+
+/* === HERO TEXT VISIBLE BY DEFAULT === */
+.hero-match-content {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
