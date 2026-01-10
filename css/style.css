@@ -719,16 +719,14 @@ h1, h2, h3, h4, h5, h6, p, span, div, li, td, th {
   justify-content: center;
 }
 
-/* === EMERGENCY HERO FIX - TESTING === */
-.hero-match-content,
-.hero-match-content * {
+/* === HERO VISIBILITY FIX === */
+.hero-match-content {
   opacity: 1 !important;
   visibility: visible !important;
-  display: block !important;
-  color: #fff !important;
-  z-index: 9999 !important;
+  z-index: 10 !important;
 }
 
 .hero-slide {
-  background: red !important;
+  background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+  min-height: 100vh;
 }
