@@ -193,7 +193,7 @@ const players = [
   { name: "Eric", pos: "Midfielder", goals: 1, assists: 0, yel: 0, red: 0, motm: 0 },
   { name: "Amir", pos: "Midfielder", goals: 1, assists: 2, yel: 0, red: 0, motm: 0 },
   { name: "Farhan", pos: "Midfielder", goals: 1, assists: 0, yel: 0, red: 0, motm: 0 },
-  { name: "Apis", pos: "Midfielder", goals: 1, assists: 0, yel: 0, red: 0, motm: 0 }
+  { name: "Apis", pos: "Midfielder", goals: 1, assists: 1, yel: 0, red: 0, motm: 0 }
 ];
 
 players.forEach(player => {
