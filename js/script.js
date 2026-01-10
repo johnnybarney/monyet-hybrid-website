@@ -189,7 +189,7 @@ ScrollTrigger.create({
 
 // === PLAYER STATS DATA ===
 const players = [
-  { name: "Niezam", pos: "Midfielder", goals: 0, assists: 0, yel: 0, red: 0, motm: 0 },
+  { name: "Nizam", pos: "Midfielder", goals: 0, assists: 0, yel: 0, red: 0, motm: 0 },
   { name: "Naem", pos: "Midfielder", goals: 1, assists: 0, yel: 0, red: 0, motm: 0 },
   { name: "Apis", pos: "Midfielder", goals: 0, assists: 1, yel: 0, red: 0, motm: 0 }
 ];
