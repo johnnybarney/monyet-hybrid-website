@@ -718,3 +718,17 @@ h1, h2, h3, h4, h5, h6, p, span, div, li, td, th {
   align-items: center;
   justify-content: center;
 }
+
+/* === EMERGENCY HERO FIX - TESTING === */
+.hero-match-content,
+.hero-match-content * {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  color: #fff !important;
+  z-index: 9999 !important;
+}
+
+.hero-slide {
+  background: red !important;
+}
